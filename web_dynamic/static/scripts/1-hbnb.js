@@ -1,12 +1,15 @@
-$(document).ready(function () {
-  let list_amenities = [];
-  $('input[type=checkbox]').change (function () {
-    let amenity_name = $(this).attr('data-name');
-      if ($(this).is(':checked')) {
-	list_amenities.push(amenity_name);
-      } else {
-	list_amenities = list_amenities.filter(amen => amen !== amenity_name);
-      }
-    $('.amenities h4').text(list_amenities.join(', '));
+$(function () {
+  const amenityDict = {};
+  $(':checkbox')change(function () {
+    if (this.checked) {
+      amenityDict[$(this).data('id')] = $(this).data('name');
+    } else {
+      delete amenityDict[$(this).data('id')];
+    }
+    if ($.isEmptyObject(amenityDict)) {
+      $('.amenities h4').html('&nbsp');
+    } else {
+      $('.amenities h4').text(Object.values(amenityDict).join(', '));
+    }
   });
 });
